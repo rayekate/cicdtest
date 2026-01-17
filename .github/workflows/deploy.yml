@@ -22,9 +22,11 @@ jobs:
 
       - name: Deploy on server
         run: |
-          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no \
+              ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             set -e
             cd /var/www/cicd-app
             git pull origin main
-            sudo systemctl reload nginx
+            systemctl reload nginx
           EOF
+
